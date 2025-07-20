@@ -1,0 +1,57 @@
+<div style="font-size: 14px; color: #666; margin-top: 5px;">
+                            سورة ${result.chapter_name} - ${result.resource_name}
+                        </div>
+                    ;
+                }
+                
+                resultEl.onclick = () => {
+                    const surahNumber = result.verse_key.split(':')[0];
+                    const ayaNumber = result.verse_key.split(':')[1];
+                    loadSurah(parseInt(surahNumber));
+                    setTimeout(() => selectAya(parseInt(ayaNumber)), 500);
+                };
+                
+                ayaContainerEl.appendChild(resultEl);
+            });
+        }
+        
+        // إعداد مستمعي الأحداث
+        function setupEventListeners() {
+            document.getElementById('show-tafsir').addEventListener('change', function() {
+                tafsirPanelEl.style.display = this.checked ? 'block' : 'none';
+                if (this.checked && currentSurah) {
+                    loadTafsir(currentSurah, selectedAya);
+                }
+            });
+            
+            document.getElementById('show-translation').addEventListener('change', function() {
+                translationPanelEl.style.display = this.checked ? 'block' : 'none';
+                if (this.checked && currentSurah) {
+                    loadTranslation(currentSurah, selectedAya);
+                }
+            });
+            
+            document.getElementById('translation-lang').addEventListener('change', function() {
+                if (currentSurah) {
+                    loadTranslation(currentSurah, selectedAya);
+                }
+            });
+            
+            document.getElementById('tafsir-source').addEventListener('change', function() {
+                if (currentSurah) {
+                    loadTafsir(currentSurah, selectedAya);
+                }
+            });
+        }
+        
+        // وظائف مساعدة
+        function showLoading(element, message) {
+            element.innerHTML = `<div class="loading">${message}</div>`;
+        }
+        
+        function showError(element, message) {
+            element.innerHTML = `<div class="error">${message}</div>`;
+        }
+    </script>
+</body>
+</html>
